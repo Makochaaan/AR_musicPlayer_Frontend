@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'addImagePage.dart';
+import '../component/displayImage.dart';
 
 class MainPage extends StatefulWidget {
   @override 
@@ -26,37 +27,48 @@ class _MainPageState extends State<MainPage> {
             crossAxisSpacing: 5,
             childAspectRatio: 0.8,
           ),
-        itemCount: pictureList.length,
+        itemCount: pictureList.length+1,
         itemBuilder: (context, index){
-          return SizedBox(
+          if (index>=pictureList.length || pictureList.isEmpty){
+            return InkWell(
+              onTap: () async {
+                final newListComponent = await Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return AddImagePage();
+                  }),
+                );
+                if (newListComponent != null) {
+                  setState(() {
+                    pictureList.add(newListComponent);
+                  });
+                }
+              },
+              child: SizedBox(
                 child: Card(
                   margin: const EdgeInsets.all(30),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  clipBehavior:
-                      Clip.antiAliasWithSaveLayer, // Cardと被ったWidgetをCardの形に保持する
-                  child: Image.file(File(pictureList[index].path)),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  child: const Padding(
+                    padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
+                    child: Column(
+                      children: [
+                        Icon(Icons.add_a_photo),
+                        Center(
+                          child: Text("add Image",style: TextStyle(fontSize: 20.0)),
+                        ),
+                      ],
+                  ),), 
                 ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: ()  async {
-
-          final newListComponent = await Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) {
-              return AddImagePage();
-            }),
-          );
-          if (newListComponent != null) {
-            setState(() {
-              pictureList.add(newListComponent);
-            });
+              ),
+            );
+          } else {
+            return DisplayImageWidget(index: index, pictureList: pictureList);
           }
         },
-        child: const Icon(Icons.add),
       ),
+     
 
       bottomNavigationBar:Container(
         height: 60,
