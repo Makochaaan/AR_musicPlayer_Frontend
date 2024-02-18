@@ -32,14 +32,7 @@ class _AddImagePageState extends State<AddImagePage> {
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                 ),
                 onPressed: () async {
-                  final pickedFile = await imagePicker.pickImage(source: ImageSource.camera);
-                  setState(() {
-                    if (pickedFile != null){
-                      _image = XFile(pickedFile.path);
-                    }
-                  });
-                  if (!mounted) return;
-                  Navigator.of(context).pop(_image);
+                 
                 },
                 child: const Text("カメラから追加", style: TextStyle(color: Colors.white)),
               )
