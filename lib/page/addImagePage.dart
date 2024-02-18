@@ -52,14 +52,16 @@ class _AddImagePageState extends State<AddImagePage> {
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                 ),
                 onPressed: () async {
-                  final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+                  final List<XFile>? pickedFiles = await imagePicker.pickMultiImage();
                   setState(() {
-                    if (pickedFile != null){
-                      _image = XFile(pickedFile.path);
+                    if (pickedFiles != null){
+                      for (var i = 0; i < pickedFiles.length; i++) {
+                        pickedFiles[i] = XFile(pickedFiles[i].path);
+                      }
                     }
                   });
                   if (!mounted) return;
-                  Navigator.of(context).pop(_image);
+                  Navigator.of(context).pop(pickedFiles);
                 },
                 child: const Text("ギャラリーから追加", style: TextStyle(color: Colors.white)),
               )

@@ -38,10 +38,16 @@ class _MainPageState extends State<MainPage> {
                   }),
                 );
                 if (newListComponent != null) {
-                  setState(() {
-                    pictureList.add(newListComponent);
-                  });
-                }
+                  if (newListComponent is List<XFile>){
+                    setState(() {
+                      pictureList.addAll(newListComponent);
+                    });
+                  } else if (newListComponent is XFile){
+                    setState(() {
+                      pictureList.add(newListComponent);
+                    });
+                  }
+                };
               },
               child: SizedBox(
                 child: Card(
