@@ -32,24 +32,6 @@ class _MainPageState extends State<MainPage> {
         itemBuilder: (context, index){
           if (index>=pictureList.length || pictureList.isEmpty){
             return InkWell(
-              // onTap: () async {
-              //   final newListComponent = await Navigator.of(context).push(
-              //     MaterialPageRoute(builder: (context) {
-              //       return AddImagePage();
-              //     }),
-              //   );
-              //   if (newListComponent != null) {
-              //     if (newListComponent is List<XFile>){
-              //       setState(() {
-              //         pictureList.addAll(newListComponent);
-              //       });
-              //     } else if (newListComponent is XFile){
-              //       setState(() {
-              //         pictureList.add(newListComponent);
-              //       });
-              //     }
-              //   };
-              // },
               onTap: () async {
                 final newListComponent = await showDialog<dynamic>(
                   context: context,
