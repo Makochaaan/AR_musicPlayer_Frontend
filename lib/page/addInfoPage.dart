@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import '../util/processFile.dart';
+import '../component/displayAlbumArt.dart';
+import 'dart:typed_data';
 
 class AddInfoPage extends StatefulWidget {
 
   final XFile picture;
   AddInfoPage({required this.picture});
 
-  
-
-  
   @override
   _AddInfoPageState createState() => _AddInfoPageState();
 }
@@ -22,6 +21,9 @@ class _AddInfoPageState extends State<AddInfoPage> {
   String artist = "";
   String album = "";
   String pathStr = "";
+  File musicFile = File('');
+  Uint8List albumArtByte = Uint8List(0);
+  int trigger = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +44,8 @@ class _AddInfoPageState extends State<AddInfoPage> {
                   padding: const EdgeInsets.all(32),
                   child: Column(children: <Widget>[Text("Picture Data")]),
                 ),
-                Row(children: [
-                  Text("Place:"),
-                  Text("a"),
-                ]),
-                Row(children: [
-                  Text("Time:"),
-                  Text("a"),
-                ]),
+                Row(children: [Text("Place:"), Text("a"),]),
+                Row(children: [Text("Time:"),  Text("a"),]),
               ]),
               
               Container(
@@ -62,15 +58,28 @@ class _AddInfoPageState extends State<AddInfoPage> {
                       child:TextButton( child: const Text('Add Music'), 
                         onPressed: () async {
                           final processer = ProcessFile();
-                          var musicFile = await processer.GetFile();
+                          musicFile = await processer.GetFile();
                           var tag = await processer.GetTag(musicFile);
-
-                          setState(() => {
+                          var buffer = await processer.extractAlbumArt(musicFile);
+                          if (buffer != null){
+                            trigger = 1;
+                            setState(() => {
                             pathStr = musicFile.path.toString(), 
                             title = tag[0].toString(),
                             artist = tag[1].toString(),
                             album = tag[2].toString(),
-                          });
+                            albumArtByte = buffer,
+                            });
+                          } else {
+                            setState(() => {
+                            pathStr = musicFile.path.toString(), 
+                            title = tag[0].toString(),
+                            artist = tag[1].toString(),
+                            album = tag[2].toString(),
+                            });
+                          }
+
+                          
                         },
                       ),
                     ),
@@ -78,7 +87,8 @@ class _AddInfoPageState extends State<AddInfoPage> {
                   Text(title),
                   Text(artist),
                   Text(album),
-                  Text(pathStr),
+                  (trigger==1)?AddAlbumArt(byte: albumArtByte):Text("a"),
+
                 ])
               ),
             ]
