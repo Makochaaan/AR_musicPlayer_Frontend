@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'page/mainPage.dart';
+import 'page/playMusicPage.dart';
+
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(const ARMusicPlayerApp());
@@ -19,6 +22,7 @@ class ARMusicPlayerApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: MainPage(),
+      // home: playMusicPage(musicPath: "a", picture: XFile("a")),
     );
   }
 }

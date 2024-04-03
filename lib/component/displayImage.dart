@@ -6,6 +6,7 @@ import '../page/addInfoPage.dart';
 class DisplayImageWidget extends StatefulWidget {
   final int index;
   final List<XFile> pictureList;
+  final List<List<String>> musicList = [["","","",""],["","","",""],["","","",""]];
 
   DisplayImageWidget({required this.index, required this.pictureList});
 
@@ -20,9 +21,10 @@ class _DisplayImageWidgetState extends State<DisplayImageWidget> {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(builder: (context) {
-            return AddInfoPage(picture: widget.pictureList[widget.index]);
+            return AddInfoPage(picture: widget.pictureList[widget.index], musicList: widget.musicList, index:widget.index);
           }),
         );
+        
       },
       
       child: SizedBox(
