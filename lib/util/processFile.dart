@@ -2,15 +2,18 @@ import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:charset_converter/charset_converter.dart';
+import 'copyFile.dart';
 
 class ProcessFile {
   Future<File> GetFile() async {
     FilePickerResult? result;
+    final copyer = CopyFile();
     result = await FilePicker.platform.pickFiles(
       dialogTitle: 'Please Play Music File', type: FileType.audio
     );
     if (result != null) {
       File file = File(result.files.single.path!);
+      copyer.CopyFileToAppFolder(result.files.single.path!);
       return file;
     } else {
       return File('');
