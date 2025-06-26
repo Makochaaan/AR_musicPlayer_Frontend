@@ -1,0 +1,26 @@
+name: ar_music_player
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.0.5 <4.0.0'
+
+dependencies:
+  audioplayers: ^5.2.1
+  audiotags: ^1.4.2
+  charset_converter: ^2.3.0
+  file_picker: ^7.0.2
+  flutter:
+    sdk: flutter
+  image_picker: ^1.0.7
+  path_provider: ^2.1.2
+  sqflite: ^2.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
